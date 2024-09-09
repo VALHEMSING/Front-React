@@ -4,17 +4,20 @@ import NavBar from './components/navbar/NavBar'
 import Footer from './components/footer/Footer'
 import NavbarRoutes from './routes/NavbarRoutes'
 import theme from './theme/theme'
-import {ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 
 
 function App() {
   return (
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Router>
-        <NavBar></NavBar>
-        <NavbarRoutes/>
-        <Footer/>
+        <NavBar />
+        <div className='content'>
+          <NavbarRoutes />
+        </div>
+        <NavbarRoutes />
+        <Footer />
       </Router>
     </ThemeProvider>
 
