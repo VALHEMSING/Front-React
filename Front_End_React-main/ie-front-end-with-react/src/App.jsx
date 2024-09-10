@@ -16,7 +16,6 @@ function App() {
         <div className='content'>
           <NavbarRoutes />
         </div>
-        <NavbarRoutes />
         <Footer />
       </Router>
     </ThemeProvider>

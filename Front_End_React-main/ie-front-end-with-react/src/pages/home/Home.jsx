@@ -16,6 +16,7 @@ import {
     Alert,
 } from "@mui/material";
 
+
 const Home = () => {
     const [cursos, setCursos] = useState([]);
     const [selectedCurso, setSelectedCurso] = useState(null);
@@ -49,13 +50,11 @@ const Home = () => {
         e.target.src = "https://via.placeholder.com/150"; // Imagen por defecto
     };
 
-    // Función para manejar el clic en una tarjeta de curso
     const handleCardClick = (curso) => {
         setSelectedCurso(curso);
         setOpenModal(true);
     };
 
-    // Función para cerrar el modal
     const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedCurso(null);
@@ -66,7 +65,6 @@ const Home = () => {
         });
     };
 
-    // Función para manejar los cambios en los campos del formulario
     const handleInputChange = (e) => {
         setFormValues({
             ...formValues,
@@ -76,7 +74,6 @@ const Home = () => {
 
     const handleRegisterAndEnroll = async () => {
         try {
-            // Intentar registrar el usuario
             const createUserResponse = await fetch(
                 "https://localhost:3000/api/usuarios",
                 {
@@ -88,15 +85,13 @@ const Home = () => {
                 }
             );
 
-            if (createUserResponse.status !== 200 && !createUserResponse.ok) {
+            if (createUserResponse.status !== 409 && !createUserResponse.ok) {
                 const errorData = await createUserResponse.json();
                 throw new Error(errorData.error || "Error al registrar usuario");
             }
 
-            // Si el usuario ya existe o se ha creado correctamente
             const email = formValues.email;
 
-            // Inscribir al usuario en el curso
             const enrollResponse = await fetch(
                 `https://localhost:3000/api/usuarios/${email}/cursos`,
                 {
@@ -129,101 +124,97 @@ const Home = () => {
     };
 
     return (
-        <Container>
-            <Typography variant="h4" gutterBottom>
-                Cursos Disponibles
-            </Typography>
-            <Grid container spacing={3}>
-                {cursos.map((curso) => (
-                    <Grid item xs={12} sm={6} md={4} key={curso._id}>
-                        <Card onClick={() => handleCardClick(curso)}>
-                            <CardMedia
-                                component="img"
-                                height="140"
-                                image={curso.imagen}
-                                alt={curso.titulo}
-                                onError={handleImageError}
-                                style={{
-                                    boerderRadius: "50%",
-                                    width: 140,
-                                    height: 140,
-                                    margin: "auto",
-                                }}
-                            />
-                            <CardContent>
-                                <Typography variant="h6" component="div">
-                                    {curso.titulo}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    {curso.descripcion}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-            {/* Modal de regustro e inscripcion */}
-            <Dialog
-                open={openModal}
-                onClose={handleCloseModal}
-                maxWidth="sm"
-                fullWidth
-            >
-                <DialogTitle>Registro e Inscripcion</DialogTitle>
-                <DialogContent>
-                    <Typography variant="h6">{selectedCurso?.titulo}</Typography>
-                    <TextField
-                        label="Nombre"
-                        name="nombre"
-                        value={formValues.nombre}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formValues.email}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Contraseña"
-                        name="password"
-                        type="password"
-                        value={formValues.password}
-                        onChange={handleInputChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseModal} color="primary">
-                        Cancelar
-                    </Button>
-                    <Button onClick={handleRegisterAndEnroll} color="primary">
-                        Registrarse e Inscribirse
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            {/* Snackbar para mensajes*/}
-            <Snackbar
-                open={openSnackbar}
-                autoHideDuration={6000}
-                onClose={handleCloseSnackbar}
-            >
-                <Alert
+        <>
+            <Container>
+                <Typography variant="h4" gutterBottom>
+                    <br />
+                    <br />
+                    Cursos disponibles
+                </Typography>
+                <Grid container spacing={3}>
+                    {cursos.map((curso) => (
+                        <Grid item xs={12} sm={6} md={4} key={curso._id}>
+                            <Card onClick={() => handleCardClick(curso)}>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={curso.imagen}
+                                    alt={curso.titulo}
+                                    onError={handleImageError}
+                                    style={{
+                                        borderRadius: "50%",
+                                        width: 140,
+                                        height: 140,
+                                        margin: "auto",
+                                    }}
+                                />
+                                <CardContent>
+                                    <Typography variant="h6" component="div">
+                                        {curso.titulo}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary">
+                                        {curso.descripcion}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+                <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+                    <DialogTitle>Registro e Inscripción</DialogTitle>
+                    <DialogContent>
+                        <Typography variant="h6">{selectedCurso?.titulo}</Typography>
+                        <TextField
+                            label="Nombre"
+                            name="nombre"
+                            value={formValues.nombre}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Email"
+                            name="email"
+                            type="email"
+                            value={formValues.email}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Contraseña"
+                            name="password"
+                            type="password"
+                            value={formValues.password}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseModal} color="primary">
+                            Cancelar
+                        </Button>
+                        <Button onClick={handleRegisterAndEnroll} color="primary">
+                            Registrarse e Inscribirse
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={6000}
                     onClose={handleCloseSnackbar}
-                    severity={errorMessage.includes("exito") ? "succes" : "error"}
-                    sx={{ width: "100%" }}
                 >
-                    {errorMessage}
-                </Alert>
-            </Snackbar>
-        </Container>
+                    <Alert
+                        onClose={handleCloseSnackbar}
+                        severity={errorMessage.includes("éxito") ? "success" : "error"}
+                        sx={{ width: "100%" }}
+                    >
+                        {errorMessage}
+                    </Alert>
+                </Snackbar>
+            </Container>
+        </>
     );
 };
 
