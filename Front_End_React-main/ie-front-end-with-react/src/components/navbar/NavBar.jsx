@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -65,43 +66,35 @@ export default function Navbar() {
 
   return (
     <>
-      <AppBar position='fixed'>
-        <Toolbar className={classes.toolbar}>
-          <img src={logoSena} alt="SENA logo" className={classes.logo} />
-          <Typography variant="h6" className={classes.title}>
-            SERVICIO NACIONAL DE APRENDIZAJE - SENA
-          </Typography>
-          <IconButton
-            edge='start'
-            color='inherit'
-            aria-label='menu'
-            onClick={handleDrawerToggle}
-            sx={{
-              display: {
-                xs: 'block',
-                md: 'none'
-              }
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box sx={{
-            display: {
-              xs: 'block',
-              md: 'flex'
-            }
-          }}>
-            {['Home', 'Cursos', 'Usuarios', 'Más Información'].map((text) => (
-              <Button color='inherit' component={LinkBehavior} to={`/${normalizeText(text)}`} key={text}>
-                {text}
-              </Button>
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Drawer anchor='left' open={drawerOpen} onClose={handleDrawerToggle}>
-        {drawer}
-      </Drawer>
+    <AppBar position="fixed">
+      <Toolbar className={classes.toolbar}>
+        <img src={logoSena} alt="SENA Logo" className={classes.logo} />
+        <Typography variant="h6" className={classes.title}>
+          SERVICIO NACIONAL DE APRENDIZAJE SENA
+        </Typography>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={handleDrawerToggle}
+          sx={{ display: { xs: 'block', md: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          {['Home', 'Cursos', 'Usuarios', 'Más Información'].map((text) => (
+            <Button color="inherit" component={LinkBehavior} to={`/${normalizeText(text)}`} key={text}>
+              {text}
+            </Button>
+          ))}
+        </Box>
+      </Toolbar>
+    </AppBar>
+    <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerToggle}>
+      {drawer}
+    </Drawer>
+
     </>
+    
   );
 }
